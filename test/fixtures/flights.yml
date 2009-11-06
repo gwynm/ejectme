@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  departs_at: 2009-11-06 10:56:22
+  price: 1.5
+  from_airport: MyString
+  to_airport: MyString
+
+two:
+  departs_at: 2009-11-06 10:56:22
+  price: 1.5
+  from_airport: MyString
+  to_airport: MyString

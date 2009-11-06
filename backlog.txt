@@ -1,0 +1,2 @@
+As a user, I want to see the next available <£10/each/eachway ryanair flight that I can fit in a long weekend.
+ (dep friday morning / return monday mornning, or dep friday night / return monday night)
