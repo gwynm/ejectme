@@ -36,7 +36,7 @@ class EjectorSeat
       cond_hash[:max_date] = DateTime.parse(params[:date].strftime("%Y-%m-%d") + " 23:59")
       cond_string << "departs_at > :min_date AND departs_at < :max_date"
     end
-    Flight.find(:first,:conditions=>[cond_string.join(" AND "),cond_hash],:order=>"RAND()")
+    Flight.find(:all,:conditions=>[cond_string.join(" AND "),cond_hash]).sort_by{rand}.first
   end
   
   def self.upcoming_outgoing_dates
