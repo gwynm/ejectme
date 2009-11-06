@@ -1,4 +1,5 @@
-Here are your flights:
-<% @flights.each do |flight| %>
-  <%= h flight.inspect %>
-<% end %>
+<img src='ejectlarge.jpg' style='float:right'>
+<h1>EJECT.ME</h1>
+<h2>Emergency air travel</h2>
+You're going to <%= @flights[:outgoing].to_airport %> on <%= @flights[:outgoing].departs_at.strftime("%a %d %B") %> and returning on <%= @flights[:incoming].departs_at.strftime("%a %d %B") %>. All-in price per person (excluding airport transfers) is <%= number_to_currency(@flights[:outgoing].price + @flights[:incoming].price,:unit=>"£") %>.
+

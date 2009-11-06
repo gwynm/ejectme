@@ -1,29 +1,30 @@
 class RyanairScraper < Scraper
   
   def self.rebuild_flights
-    from_airport = "aSTN"
-    to_airports = %w(BAR WRO BHD AGP CIA RYG)
-    dates = self.upcoming_weekend_dates
+    from_airport = "STN"
+    to_airports = %w(ORK NRN PIK NOC LRH MRS PMF PEG PIS NYO)
+
     to_airports.each do |to_airport|
-      dates.each do |date|
+      upcoming_outgoing_dates.each do |date|
         price = self.price_for_flight(date,from_airport,to_airport)
         puts "#{from_airport} -> #{to_airport} on #{date.to_s}: GBP #{price}"
-        Flight.create!(:from_airport=>from_airport,:to_airport=>to_airport,:departs_at=>date,:price=>price) if price && price < 20
+        Flight.create!(:from_airport=>from_airport,:to_airport=>to_airport,:departs_at=>date,:price=>price) if price
+      end
+      upcoming_incoming_dates.each do |date|
+        price = self.price_for_flight(date,to_airport,from_airport)
+        puts "#{to_airport} -> #{from_airport} on #{date.to_s}: GBP #{price}"
+        Flight.create!(:from_airport=>to_airport,:to_airport=>from_airport,:departs_at=>date,:price=>price) if price
       end
     end
   end
   
-  def self.upcoming_weekend_dates
-    (1..30).collect{|n| n.days.from_now}.select{|d| %w(Fri Sat Sun Mon).include?(d.strftime("%a"))}.compact
+  def self.upcoming_outgoing_dates
+    (1..30).collect{|n| n.days.from_now}.select{|d| %w(Fri Sat).include?(d.strftime("%a"))}.compact
   end
-  
-  
-  def self.test
-    #from_string = "aSTN";to_string="CIA";date=15.days.from_now
-
-    self.create_flight(15.days.from_now,"aSTN","CIA")
+  def self.upcoming_incoming_dates
+    (3..32).collect{|n| n.days.from_now}.select{|d| %w(Sun Mon).include?(d.strftime("%a"))}.compact
   end
-  
+    
   #Query ryanair and create a Flight object 
   def self.price_for_flight(date,from_string,to_string)
     prices = []
@@ -31,11 +32,11 @@ class RyanairScraper < Scraper
    # agent.set_proxy("127.0.0.1", 8888)
     page = agent.get('http://ryanair.com/php/sbforms/form.php?val=GB')
     booking_form = page.forms.first
-    booking_form.sector1_o = from_string
+    booking_form.sector1_o = "a" + from_string
     booking_form.sector1_d = to_string
     booking_form.delete_field!("SearchBy")
     booking_form.date1 = date.strftime("%Y%m%d")
-    booking_form.m1 = date.strftime("%Y%m%d") + from_string + to_string
+    booking_form.m1 = date.strftime("%Y%m%d") + "a" + from_string + to_string
     booking_form.nom = "1"
     booking_form.pM = "0"
     booking_form.tc = "1"
