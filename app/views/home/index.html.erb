@@ -1,6 +1,6 @@
 <div class='left maincontent'><div class='lining'>
 <h1>EJECT EJECT EJECT</h1>
-You're going to <%= wikipedia_link(@flights[:outgoing].to_airport) %> on <%= @flights[:outgoing].departs_at.strftime("%a %d %B") %> and returning on <%= @flights[:incoming].departs_at.strftime("%a %d %B") %>. All-in price per person (excluding airport transfers) is <%= number_to_currency(@flights[:outgoing].price + @flights[:incoming].price,:unit=>"£") %> if you get a <a href='http://www.postoffice.co.uk/portal/po/jump2?catId=19300207&mediaId=26800661'>visa electron</a>.
+You're going to <%= wikipedia_link(@flights[:outgoing].to_airport) %> on <%= @flights[:outgoing].departs_at.strftime("%a %d %B") %> and returning on <%= @flights[:incoming].departs_at.strftime("%a %d %B") %>. All-in return price per person (excluding airport transfers) is <%= number_to_currency(@flights[:outgoing].price + @flights[:incoming].price,:unit=>"£") %> if you get a <a href='http://www.postoffice.co.uk/portal/po/jump2?catId=19300207&mediaId=26800661'>visa electron</a>.
 </div></div>
 <div class='right'>
   <img id='ejectpic' src='/ejectlarge.jpg'>
