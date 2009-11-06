@@ -1,0 +1,80 @@
+/* hax */
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+body {
+  font-family: helvetica,sans-serif;
+  font-size: 24px;
+  color: #222;
+  background-color: #eee;
+  line-height: 1.4;
+  text-align: center;
+  margin: auto;
+}
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+img {
+  border: none;
+}
+
+a, a:visited {
+  color: #005494;
+text-decoration: none;
+}
+
+a:hover {
+text-decoration: underline;
+}
+
+h1 {
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+}
+
+h2 {
+  margin-top: 1em;
+  margin-bottom: 0.6em;
+  clear: both;
+}
+
+h3, h4 {
+  margin-top: 0.9em;
+  margin-bottom: 0.7em;
+}
+
+p {
+  margin-bottom: 0.5em;
+}
+.left {
+	float:left;
+	width:50%;
+	height:100%;
+}
+.right {
+	float:right;
+	width:50%;
+	height:100%;
+}
+#ejectpic {
+	width:100%;
+	height:100%;
+}
+.maincontent {
+	background-color:#000;
+	color:#fff;
+}
+.lining {
+	padding:20px;
+}

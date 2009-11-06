@@ -3,13 +3,13 @@ class EjectorSeat
   #Find a suitable flight pair, or return nil if there's nothing
   def self.eject
     self.upcoming_outgoing_dates.each do |outgoing|
-      puts "trying date #{outgoing}"
+      RAILS_DEFAULT_LOGGER.info "GWYN: trying date #{outgoing}"
       outgoing_flight = self.find_flight_for_date(:from=>"STN",:to=>nil,:max_price=>20,:date=>outgoing)
-      puts "  flying out on #{outgoing_flight.inspect}"
+      RAILS_DEFAULT_LOGGER.info "GWYN:   flying out on #{outgoing_flight.inspect}"
       next unless outgoing_flight
       incoming_flight = self.find_flight_for_date(:from=>outgoing_flight.to_airport,:to=>"STN",:max_price=>20,:date=>incoming_date(outgoing))
       return {:outgoing=>outgoing_flight,:incoming=>incoming_flight} if incoming_flight
-      puts "   agh, can't get home on #{incoming_date(outgoing)}!"
+      RAILS_DEFAULT_LOGGER.info "GWYN:    agh, can't get home on #{incoming_date(outgoing)}!"
     end  
     return nil
   end
