@@ -4,7 +4,11 @@ class RyanairScraper < Scraper
     self.prune_old_data
     
     from_airport = "STN"
-    to_airports = %w(AAR AGA AHO ALC LEI AOC AOI ANG BAR BRI BSL BHD EGC SXF BIQ BLL BLQ BTS BRE BDS BRQ BZG CCF ORK CUF LDY DNR DUB NRN EIN FAO HHN FDH GDN GOA GRO PIK GSE LPA GRX GRZ GNB LBC HAU IBZ XRY FKB KTW KUN KIR KLU NOC KRK LRH ACE LIG LNZ LCJ LDE MAD AGP MRS FMM BGY MPL MUN MJV RYG TRF PMO PMI PMF PUF PGF PEG PSR PSA PIS OPO POZ PUY REU RIX RMI RDZ CIA RZE SZG SDR SCQ SVQ SNN NYO VST SZZ TMP TFS TLN TUF TRS TRN VLC VLL TSF VBS WRO ZAD ZAZ)
+    all_dest_airports = %w(AAR AGA AHO ALC LEI AOC AOI ANG BAR BRI BSL BHD EGC SXF BIQ BLL BLQ BTS BRE BDS BRQ BZG CCF ORK CUF LDY DNR DUB NRN EIN FAO HHN FDH GDN GOA GRO PIK GSE LPA GRX GRZ GNB LBC HAU IBZ XRY FKB KTW KUN KIR KLU NOC KRK LRH ACE LIG LNZ LCJ LDE MAD AGP MRS FMM BGY MPL MUN MJV RYG TRF PMO PMI PMF PUF PGF PEG PSR PSA PIS OPO POZ PUY REU RIX RMI RDZ CIA RZE SZG SDR SCQ SVQ SNN NYO VST SZZ TMP TFS TLN TUF TRS TRN VLC VLL TSF VBS WRO ZAD ZAZ)
+    warm_places = %w(TFS LPA ACE AGA FAO XRY AGP LEI MJV SVQ GRX IBZ AHO TPS PMO BRI BDS)
+    
+    to_airports = warm_places
+    
 
     to_airports.each do |to_airport|
       upcoming_dates.each do |date|
@@ -36,8 +40,8 @@ class RyanairScraper < Scraper
   def self.build_flights(date,from_string,to_string)
     begin
       agent = WWW::Mechanize.new
-      #agent.set_proxy("127.0.0.1", 8888)
-      page = agent.get('http://ryanair.com/php/sbforms/form.php?val=GB')
+     # agent.set_proxy("127.0.0.1", 8888)
+      page = agent.get('http://ryanair.com/en/booking/form')
       booking_form = page.forms.first
       booking_form.sector1_o = "a" + from_string
       booking_form.sector1_d = to_string
@@ -56,8 +60,8 @@ class RyanairScraper < Scraper
       booking_form.sector_2_m = date.strftime("%m%Y")
       booking_form.add_field!("travel_type","on")
       results_page = agent.submit(booking_form)
-    
-      return nil unless results_page.root.to_s.index("Regular") #no flights on this date
+  #  return results_page
+      return nil unless results_page.root.to_s.index("Adult") #no flights on this date
         
       #now break out the flight keys
       outgoing_keys = self.get_keys(results_page,"AvailabilityInputFRSelectView$market1")
